@@ -1,0 +1,26 @@
+{
+    "name": "clarify/clarify-helper",
+    "version": "1.0.0",
+    "type": "library",
+    "description": "A PHP wrapper for the Clarify API",
+    "keywords": ["op3nvoice", "openvoice", "api", "audio search", "video search", "clarify", "clarify.io"],
+    "homepage": "https://github.com/Clarify/clarify-php",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Keith Casey",
+            "email": "contrib@caseysoftware.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "guzzle/guzzle": "~3.9.0"
+    },
+    "require-dev": {
+        "mockery/mockery": ">=0.7.2",
+        "phpunit/phpunit": "3.7.*"
+    },
+    "autoload": {
+        "psr-4": { "Clarify\\": "src/Clarify/"}
+    }
+}
