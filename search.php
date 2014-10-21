@@ -7,16 +7,16 @@ $terms = preg_replace("/[^A-Za-z0-9|]/", "", $terms);
 
 $bundle = new Clarify\Bundle($apikey);
 $items = $bundle->search($terms);
-echo '<pre>'; print_r($items); echo '</pre>';
+
 $total = (int) $items['total'];
-//$search_terms = json_encode($items['search_terms']);
-//$item_results = json_encode($items['item_results']);
-//
-//$bundlekey = $items['_links']['items'][0]['href'];
-//$tracks = $bundle->tracks->load($bundlekey)['tracks'];
-//
-//$mediaUrl = $tracks[0]['media_url'];
-//$duration = $tracks[0]['duration'];
+$search_terms = json_encode($items['search_terms']);
+$item_results = json_encode($items['item_results']);
+
+$bundlekey = $items['_links']['items'][0]['href'];
+$tracks = $bundle->tracks->load($bundlekey)['tracks'];
+
+$mediaUrl = $tracks[0]['media_url'];
+$duration = $tracks[0]['duration'];
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -28,7 +28,7 @@ $total = (int) $items['total'];
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Clarify Video Demo</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -43,8 +43,7 @@ $total = (int) $items['total'];
             o3vPlayer.jPlayerOptions.swfPath = 'scripts/jquery';
 
             // Set to the playback URL for the video file(s).
-            var mediaURLs = { m4v:"http://www.jplayer.org/video/m4v/Big_Buck_Bunny_Trailer.m4v",
-                poster:"http://www.jplayer.org/video/poster/Big_Buck_Bunny_Trailer_480x270.png"};
+            var mediaURLs = { m4v:"<?php echo $mediaUrl; ?>"};
 
             // Create a player on the page
             o3vPlayer.createPlayer("#player_instance_1",mediaURLs,9);
