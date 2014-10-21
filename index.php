@@ -32,7 +32,7 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="index.php">Home</a></li>
-                <li><a href="load.php">Load File</a></li>
+<!--                <li><a href="load.php">Load File</a></li>-->
             </ul>
         </div><!--/.nav-collapse -->
     </div>

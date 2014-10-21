@@ -98,13 +98,13 @@ $duration = $tracks[0]['duration'];
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="index.php">Home</a></li>
-                <li><a href="load.php">Load File</a></li>
+<!--                <li><a href="load.php">Load File</a></li>-->
             </ul>
         </div><!--/.nav-collapse -->
     </div>
 </div>
 <?php if (0 == $total) { ?>
-<em>If no video player appears, there was not a search result found.</em>
+<em>There were no results found. <a href="index.php">Go back</a> and try some other terms.</em>
 <?php } ?>
 <br>
 <div id="player_1_search_tags" class="o3v-search-tag-box"></div>
