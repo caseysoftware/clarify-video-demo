@@ -7,7 +7,7 @@ $terms = preg_replace("/[^ A-Za-z0-9|]/", "", $terms);
 
 $bundle = new Clarify\Bundle($apikey);
 $items = $bundle->search($terms);
-//echo '<pre>'; print_r($items);  die();
+
 $total = (int) $items['total'];
 $search_terms = json_encode($items['search_terms']);
 $item_results = json_encode($items['item_results']);
@@ -48,7 +48,7 @@ $duration = $tracks[0]['duration'];
         $(document).ready(function() {
 
             // Set the path to the jplayer swf file.
-            o3vPlayer.jPlayerOptions.swfPath = 'scripts/jquery';
+            o3vPlayer.jPlayerOptions.swfPath = 'js/jquery';
 
             // Set to the playback URL for the video file(s).
             var mediaURLs = { m4v:"<?php echo $mediaUrl; ?>"};
