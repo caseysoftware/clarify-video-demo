@@ -3,11 +3,11 @@ include 'creds.php';
 include 'vendor/autoload.php';
 
 $terms = $_POST['terms'];
-$terms = preg_replace("/[^A-Za-z0-9|]/", "", $terms);
+$terms = preg_replace("/[^ A-Za-z0-9|]/", "", $terms);
 
 $bundle = new Clarify\Bundle($apikey);
 $items = $bundle->search($terms);
-
+//echo '<pre>'; print_r($items);  die();
 $total = (int) $items['total'];
 $search_terms = json_encode($items['search_terms']);
 $item_results = json_encode($items['item_results']);
@@ -36,6 +36,14 @@ $duration = $tracks[0]['duration'];
     <!-- Custom styles for this template -->
     <link href="starter-template.css" rel="stylesheet">
 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+    <script src="js/jquery/jquery-ui-1.9.2.custom.min.js" type="text/javascript"></script>
+    <script src="js/jquery/jquery.jplayer-2.6.0.min.js" type="text/javascript"></script>
+    <script src="js/o3v_video_player.js" type="text/javascript"></script>
+
+    <link rel="stylesheet" href="css/jquery-ui.custom.css"/>
+    <link rel="stylesheet" href="css/o3v-player.css"/>
+
     <script type="text/javascript">
         $(document).ready(function() {
 
@@ -46,14 +54,14 @@ $duration = $tracks[0]['duration'];
             var mediaURLs = { m4v:"<?php echo $mediaUrl; ?>"};
 
             // Create a player on the page
-            o3vPlayer.createPlayer("#player_instance_1",mediaURLs,9);
+            o3vPlayer.createPlayer("#player_instance_1",mediaURLs, <?php echo $duration; ?>);
 
             ////////////////////////////////////////////////////////
             // This is a sample search_terms array from a SearchCollection
             var searchTerms = <?php echo $search_terms; ?>;
             // This is a sample "ItemResult" object from a SearchCollection JSON
             // object. It is one item in the item_results array.
-            var itemResult =  <?php echo substr($item_results, 1, -1); ?>;
+            var itemResult =  <?php echo $item_results; ?>;
             ////////////////////////////////////////////////////////
 
             // Create a player and add in search results marks
