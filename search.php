@@ -10,13 +10,7 @@ $items = $bundle->search($terms);
 
 $total = (int) $items['total'];
 $search_terms = json_encode($items['search_terms']);
-$item_results = json_encode($items['item_results'][0]);
-
-$bundlekey = $items['_links']['items'][0]['href'];
-$tracks = $bundle->tracks->load($bundlekey)['tracks'];
-
-$mediaUrl = $tracks[0]['media_url'];
-$duration = $tracks[0]['duration'];
+$item_results = json_encode($items['item_results']);
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -50,36 +44,43 @@ $duration = $tracks[0]['duration'];
             // Set the path to the jplayer swf file.
             o3vPlayer.jPlayerOptions.swfPath = 'js/jquery';
 
-            // Set to the playback URL for the video file(s).
-            var mediaURLs = { m4v:"<?php echo $mediaUrl; ?>"};
-
             ////////////////////////////////////////////////////////
             // This is a sample search_terms array from a SearchCollection
             var searchTerms = <?php echo $search_terms; ?>;
-            // This is a sample "ItemResult" object from a SearchCollection JSON
-            // object. It is one item in the item_results array.
-            var itemResult =  <?php echo $item_results; ?>;
-            ////////////////////////////////////////////////////////
 
-            // Create a player and add in search results marks
-            var player = o3vPlayer.createPlayer("#player_instance_1", mediaURLs, <?php echo $duration; ?>, {volume:0.5});
-            o3vPlayer.addItemResultMarkers(player, <?php echo $duration; ?>,itemResult, searchTerms);
+            <?php foreach ($items as $key => $item) {
+                $bundlekey = $items['_links']['items'][$key]['href'];
+                $tracks = $bundle->tracks->load($bundlekey)['tracks'];
 
-            ////////////////////////////////////////////////////////
-            // Create words tags for SearchCollection.
+                $mediaUrl = $tracks[0]['media_url'];
+                $duration = $tracks[0]['duration'];
+                ?>
+                // Set to the playback URL for the video file(s).
+                var mediaURLs<?php echo $key; ?> = { m4v:"<?php echo $mediaUrl; ?>"};
+                // This is a sample "ItemResult" object from a SearchCollection JSON
+                // object. It is one item in the item_results array.
+                var itemResult<?php echo $key; ?> =  <?php echo $item_results[$key]; ?>;
+                ////////////////////////////////////////////////////////
 
-            for (var i=0,c=searchTerms.length;i<c;i++) {
-                var term = searchTerms[i].term;
-                var dtag = document.createElement('div');
-                $(dtag).addClass("o3v-search-tag o3v-search-color-"+i);
-                $(dtag).text(term);
-                $("#player_1_search_tags").append(dtag);
-            }
-            dtag = document.createElement('div');
-            $(dtag).addClass("o3v-clear");
-            $("#player_1_search_tags").append(dtag);
-            ////////////////////////////////////////////////////////
+                // Create a player and add in search results marks
+                var player = o3vPlayer.createPlayer("#player_instance_<?php echo $key; ?>", mediaURLs<?php echo $key; ?>, <?php echo $duration; ?>, {volume:0.5});
+                o3vPlayer.addItemResultMarkers(player, <?php echo $duration; ?>,itemResult<?php echo $key; ?>, searchTerms);
 
+                ////////////////////////////////////////////////////////
+                // Create words tags for SearchCollection.
+
+                for (var i=0,c=searchTerms.length;i<c;i++) {
+                    var term = searchTerms[i].term;
+                    var dtag = document.createElement('div');
+                    $(dtag).addClass("o3v-search-tag o3v-search-color-"+i);
+                    $(dtag).text(term);
+                    $("#player_<?php echo $key; ?>_search_tags").append(dtag);
+                }
+                dtag = document.createElement('div');
+                $(dtag).addClass("o3v-clear");
+                $("#player_<?php echo $key; ?>_search_tags").append(dtag);
+                ////////////////////////////////////////////////////////
+            <?php } ?>
         });
     </script>
 
@@ -110,8 +111,9 @@ $duration = $tracks[0]['duration'];
     <em>There were <?php echo $total; ?> results found.</em>
 <?php } ?>
 <br>
-
-<div id="player_1_search_tags" class="o3v-search-tag-box"></div>
-<div id="player_instance_1"></div>
+<?php foreach ($items as $key => $item) { ?>
+    <div id="player_<?php echo $key; ?>_search_tags" class="o3v-search-tag-box"></div>
+    <div id="player_instance_<?php echo $key; ?>"></div>
+<?php } ?>
 </body>
 </html>
