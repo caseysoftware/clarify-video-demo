@@ -10,7 +10,7 @@ $items = $bundle->search($terms);
 
 $total = (int) $items['total'];
 $search_terms = json_encode($items['search_terms']);
-$item_results = json_encode($items['item_results']);
+$item_results = json_encode($items['item_results'][0]);
 
 $bundlekey = $items['_links']['items'][0]['href'];
 $tracks = $bundle->tracks->load($bundlekey)['tracks'];
@@ -63,7 +63,7 @@ $duration = $tracks[0]['duration'];
 
             // Create a player and add in search results marks
             var player = o3vPlayer.createPlayer("#player_instance_1", mediaURLs, <?php echo $duration; ?>, {volume:0.5});
-            o3vPlayer.addItemResultMarkers(player,convDuration,itemResult[0],searchTerms);
+            o3vPlayer.addItemResultMarkers(player, <?php echo $duration; ?>,itemResult, searchTerms);
 
             ////////////////////////////////////////////////////////
             // Create words tags for SearchCollection.
