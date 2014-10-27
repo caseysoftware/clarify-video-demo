@@ -53,9 +53,6 @@ $duration = $tracks[0]['duration'];
             // Set to the playback URL for the video file(s).
             var mediaURLs = { m4v:"<?php echo $mediaUrl; ?>"};
 
-            // Create a player on the page
-            o3vPlayer.createPlayer("#player_instance_1",mediaURLs, <?php echo $duration; ?>);
-
             ////////////////////////////////////////////////////////
             // This is a sample search_terms array from a SearchCollection
             var searchTerms = <?php echo $search_terms; ?>;
@@ -69,8 +66,7 @@ $duration = $tracks[0]['duration'];
             var convDuration = <?php echo $duration; ?>;
             var player = o3vPlayer.createPlayer("#player_instance_1",mediaURLs,
                 convDuration,{volume:0.5});
-            o3vPlayer.addItemResultMarkers(player,convDuration,itemResult,searchTerms);
-
+            o3vPlayer.addItemResultMarkers(player,convDuration,itemResult[0],searchTerms);
 
             ////////////////////////////////////////////////////////
             // Create words tags for SearchCollection.
