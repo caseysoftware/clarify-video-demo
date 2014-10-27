@@ -62,10 +62,7 @@ $duration = $tracks[0]['duration'];
             ////////////////////////////////////////////////////////
 
             // Create a player and add in search results marks
-
-            var convDuration = <?php echo $duration; ?>;
-            var player = o3vPlayer.createPlayer("#player_instance_1",mediaURLs,
-                convDuration,{volume:0.5});
+            var player = o3vPlayer.createPlayer("#player_instance_1", mediaURLs, <?php echo $duration; ?>, {volume:0.5});
             o3vPlayer.addItemResultMarkers(player,convDuration,itemResult[0],searchTerms);
 
             ////////////////////////////////////////////////////////
@@ -108,9 +105,12 @@ $duration = $tracks[0]['duration'];
     </div>
 </div>
 <?php if (0 == $total) { ?>
-<em>There were no results found. <a href="index.php">Go back</a> and try some other terms.</em>
+    <em>There were no results found. <a href="index.php">Go back</a> and try some other terms.</em>
+<?php } else { ?>
+    <em>There were <?php echo $total; ?> results found.</em>
 <?php } ?>
 <br>
+
 <div id="player_1_search_tags" class="o3v-search-tag-box"></div>
 <div id="player_instance_1"></div>
 </body>
