@@ -10,8 +10,9 @@ $items = $bundle->search($terms);
 
 $total = (int) $items['total'];
 $search_terms = json_encode($items['search_terms']);
-$item_results = json_encode($items['item_results']);
+$item_results = $items['item_results'];
 
+$bundles = $items['_links']['items'];
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -48,8 +49,8 @@ $item_results = json_encode($items['item_results']);
             // This is a sample search_terms array from a SearchCollection
             var searchTerms = <?php echo $search_terms; ?>;
 
-            <?php foreach ($items as $key => $item) {
-                $bundlekey = $items['_links']['items'][$key]['href'];
+            <?php foreach ($bundles as $key => $_bundle) {
+                $bundlekey = $_bundle['href'];
                 $tracks = $bundle->tracks->load($bundlekey)['tracks'];
 
                 $mediaUrl = $tracks[0]['media_url'];
@@ -59,7 +60,7 @@ $item_results = json_encode($items['item_results']);
                 var mediaURLs<?php echo $key; ?> = { m4v:"<?php echo $mediaUrl; ?>"};
                 // This is a sample "ItemResult" object from a SearchCollection JSON
                 // object. It is one item in the item_results array.
-                var itemResult<?php echo $key; ?> =  <?php echo $item_results[$key]; ?>;
+                var itemResult<?php echo $key; ?> =  <?php echo json_encode($item_results[$key]); ?>;
                 ////////////////////////////////////////////////////////
 
                 // Create a player and add in search results marks
@@ -111,7 +112,7 @@ $item_results = json_encode($items['item_results']);
     <em>There were <?php echo $total; ?> results found.</em>
 <?php } ?>
 <br>
-<?php foreach ($items as $key => $item) { ?>
+<?php foreach ($bundles as $key => $_bundle) { ?>
     <div id="player_<?php echo $key; ?>_search_tags" class="o3v-search-tag-box"></div>
     <div id="player_instance_<?php echo $key; ?>"></div>
 <?php } ?>
